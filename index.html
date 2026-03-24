@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Agalar Team</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:wght@400;600;700;900&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --gold: #f5c542;
+      --gold-dark: #c8991a;
+      --bg: #0d0d0d;
+      --card-bg: #161616;
+      --card-border: #2a2a2a;
+      --text: #f0ece0;
+      --muted: #888;
+      --accent: #e84545;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Nunito', sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* ── PARTICLES ── */
+    #particles {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .particle {
+      position: absolute;
+      border-radius: 50%;
+      background: var(--gold);
+      opacity: 0;
+      animation: float-up linear infinite;
+    }
+    @keyframes float-up {
+      0%   { transform: translateY(100vh) scale(0); opacity: 0; }
+      10%  { opacity: 0.4; }
+      90%  { opacity: 0.15; }
+      100% { transform: translateY(-10vh) scale(1.5); opacity: 0; }
+    }
+
+    /* ── HERO / SPLASH ── */
+    #hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      z-index: 1;
+      padding: 2rem;
+      background: radial-gradient(ellipse at 50% 40%, #1a1200 0%, #0d0d0d 70%);
+    }
+
+    .hero-badge {
+      font-family: 'Bebas Neue', sans-serif;
+      letter-spacing: 0.4em;
+      font-size: clamp(0.7rem, 2vw, 1rem);
+      color: var(--gold);
+      background: rgba(245,197,66,.1);
+      border: 1px solid rgba(245,197,66,.3);
+      padding: .35em 1.2em;
+      border-radius: 999px;
+      margin-bottom: 1.5rem;
+      animation: fade-in .8s ease both;
+    }
+
+    .hero-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(4rem, 14vw, 11rem);
+      line-height: .9;
+      letter-spacing: .05em;
+      background: linear-gradient(135deg, #fff 30%, var(--gold) 70%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: slide-up .9s cubic-bezier(.22,1,.36,1) .2s both;
+    }
+
+    .hero-sub {
+      font-size: clamp(1rem, 3vw, 1.4rem);
+      color: var(--muted);
+      margin-top: 1.2rem;
+      max-width: 520px;
+      line-height: 1.6;
+      animation: fade-in 1s ease .6s both;
+    }
+
+    .hero-cta {
+      margin-top: 2.5rem;
+      display: inline-block;
+      padding: .85em 2.5em;
+      background: var(--gold);
+      color: #000;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.15rem;
+      letter-spacing: .12em;
+      border-radius: 4px;
+      text-decoration: none;
+      animation: fade-in 1s ease .9s both;
+      position: relative;
+      overflow: hidden;
+      transition: transform .2s, box-shadow .2s;
+    }
+    .hero-cta::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,.35) 50%, transparent 100%);
+      transform: translateX(-100%);
+      transition: transform .5s;
+    }
+    .hero-cta:hover { transform: translateY(-3px); box-shadow: 0 12px 32px rgba(245,197,66,.35); }
+    .hero-cta:hover::after { transform: translateX(100%); }
+
+    .scroll-indicator {
+      position: absolute;
+      bottom: 2.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: .4rem;
+      color: var(--muted);
+      font-size: .75rem;
+      letter-spacing: .15em;
+      animation: fade-in 1s ease 1.2s both;
+    }
+    .scroll-arrow {
+      width: 22px;
+      height: 22px;
+      border-right: 2px solid var(--gold);
+      border-bottom: 2px solid var(--gold);
+      transform: rotate(45deg);
+      animation: bounce .9s ease-in-out infinite alternate;
+    }
+    @keyframes bounce { from { transform: rotate(45deg) translateY(-4px); } to { transform: rotate(45deg) translateY(4px); } }
+
+    /* ── SECTION ── */
+    #team {
+      position: relative;
+      z-index: 1;
+      padding: 6rem 1.5rem 8rem;
+    }
+
+    .section-label {
+      text-align: center;
+      font-family: 'Bebas Neue', sans-serif;
+      letter-spacing: .4em;
+      color: var(--gold);
+      font-size: clamp(.8rem, 2vw, 1rem);
+      margin-bottom: .6rem;
+    }
+
+    .section-title {
+      text-align: center;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.5rem, 7vw, 5rem);
+      letter-spacing: .06em;
+      margin-bottom: 4rem;
+      line-height: 1;
+    }
+
+    .section-title span {
+      color: var(--gold);
+    }
+
+    /* ── GRID ── */
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+      gap: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    /* ── CARD ── */
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      overflow: hidden;
+      position: relative;
+      transition: transform .35s cubic-bezier(.22,1,.36,1), box-shadow .35s;
+      opacity: 0;
+      transform: translateY(40px);
+    }
+    .card.visible {
+      animation: slide-up-card .7s cubic-bezier(.22,1,.36,1) forwards;
+    }
+    @keyframes slide-up-card {
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .card:hover {
+      transform: translateY(-8px) scale(1.015);
+      box-shadow: 0 24px 60px rgba(0,0,0,.6), 0 0 0 1px rgba(245,197,66,.2);
+    }
+
+    .card-top {
+      position: relative;
+      height: 220px;
+      overflow: hidden;
+      background: #111;
+    }
+    .card-top::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, transparent 50%, var(--card-bg) 100%);
+    }
+
+    .card-avatar {
+      width: 100%;
+      height: 130%;
+      object-fit: cover;
+      display: block;
+      transition: transform .5s ease;
+      filter: grayscale(20%);
+    }
+    .card:hover .card-avatar { transform: scale(1.07); filter: grayscale(0%); }
+
+    .card-number {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2.5rem;
+      color: rgba(245,197,66,.15);
+      line-height: 1;
+      z-index: 2;
+    }
+
+    .card-body { padding: 1.5rem 1.5rem 2rem; }
+
+    .card-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.9rem;
+      letter-spacing: .06em;
+      line-height: 1;
+      margin-bottom: .3rem;
+    }
+
+    .card-role {
+      font-size: .8rem;
+      font-weight: 700;
+      letter-spacing: .18em;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+
+    .card-divider {
+      height: 1px;
+      background: linear-gradient(to right, var(--gold), transparent);
+      margin-bottom: 1.2rem;
+    }
+
+    .card-section-title {
+      font-size: .7rem;
+      font-weight: 900;
+      letter-spacing: .2em;
+      color: var(--muted);
+      text-transform: uppercase;
+      margin-bottom: .5rem;
+    }
+
+    .tag-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .4rem;
+      margin-bottom: 1.1rem;
+    }
+
+    .tag {
+      padding: .28em .75em;
+      border-radius: 999px;
+      font-size: .78rem;
+      font-weight: 700;
+    }
+
+    .tag-food {
+      background: rgba(232,69,69,.12);
+      border: 1px solid rgba(232,69,69,.3);
+      color: #e84545;
+    }
+
+    .tag-hobby {
+      background: rgba(245,197,66,.1);
+      border: 1px solid rgba(245,197,66,.25);
+      color: var(--gold);
+    }
+
+    .card-bio {
+      font-size: .88rem;
+      color: var(--muted);
+      line-height: 1.6;
+      margin-top: .5rem;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 3rem 1rem;
+      border-top: 1px solid #1e1e1e;
+      color: var(--muted);
+      font-size: .85rem;
+    }
+    footer span { color: var(--gold); }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes slide-up {
+      from { opacity: 0; transform: translateY(40px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── NOISE OVERLAY ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+      opacity: .03;
+      pointer-events: none;
+      z-index: 999;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media(max-width: 600px) {
+      .team-grid { grid-template-columns: 1fr; }
+      .hero-title { letter-spacing: .02em; }
+    }
+
+    /* ── INSTAGRAM BUTTON ── */
+.insta-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  margin-top: 1.2rem;
+  padding: .55em 1.2em;
+  font-size: .75rem;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--gold);
+  border: 1px solid rgba(245,197,66,.4);
+  border-radius: 999px;
+  text-decoration: none;
+  background: rgba(245,197,66,.08);
+  transition: all .25s ease;
+}
+
+.insta-btn svg {
+  width: 14px;
+  height: 14px;
+  fill: var(--gold);
+}
+
+.insta-btn:hover {
+  background: var(--gold);
+  color: #000;
+  box-shadow: 0 6px 18px rgba(245,197,66,.35);
+}
+
+.insta-btn:hover svg {
+  fill: #000;
+}
+
+  </style>
+</head>
+<body>
+
+<!-- Floating particles -->
+<div id="particles"></div>
+
+<!-- ── HERO ── -->
+<section id="hero">
+  <div class="hero-badge">✦ AGALAR TEAM✦</div>
+  <h1 class="hero-title">AGALAR<br>TEAM</h1>
+  <p class="hero-sub">Biz 4 arkadaştık,4 günahsız can...</p>
+  <a href="#team" class="hero-cta">Agaları Tanı</a>
+  <div class="scroll-indicator">
+    <span>AŞAĞI KAY</span>
+    <div class="scroll-arrow"></div>
+  </div>
+</section>
+
+<!-- ── TEAM ── -->
+<section id="team">
+  <p class="section-label">✦ EKİBİMİZ ✦</p>
+  <h2 class="section-title">Ağaları <span>Tanı</span></h2>
+
+  <div class="team-grid">
+
+    <!-- CARD 1 -->
+    <div class="card">
+      <div class="card-top">
+        <img class="card-avatar"
+          src="resimler/kaan2.jpg"
+          alt="1. Ağa"
+          onerror="this.src='https://placehold.co/400x300/111/f5c542?text=Sen+%231'"/>
+        <div class="card-number">01</div>
+      </div>
+      <div class="card-body">
+        <div class="card-name">Kaan Bostancı</div>
+        <div class="card-role">Sakin Aga</div>
+        <div class="card-divider"></div>
+
+        <div class="card-section-title">🍽 En Sevdiği Yemekler</div>
+        <div class="tag-list">
+          <span class="tag tag-food">tavuk olsa yeter</span>
+          <span class="tag tag-food">tarhana</span>
+          <span class="tag tag-food">Künefe</span>
+        </div>
+
+        <div class="card-section-title">🎯 Hobileri</div>
+        <div class="tag-list">
+          <span class="tag tag-hobby">kod yazmak</span>
+          <span class="tag tag-hobby">Müzik</span>
+          <span class="tag tag-hobby">agalarla takılmak</span>
+        </div>
+
+        <p class="card-bio">SA ben kaan bostancı Kahramanmaraşda yaşıyorum kod yazmaya meraklıyım zaten bu siteyide ben yaptım 
+            (evde sıkıldım çünkü ) bu kadar 
+        </p>
+        <a href="https://instagram.com/kaan_bstnc15" target="_blank" class="insta-btn">
+  <svg viewBox="0 0 24 24">
+    <path d="M7 2C4.2 2 2 4.2 2 7v10c0 2.8 2.2 5 5 5h10c2.8 0 5-2.2 5-5V7c0-2.8-2.2-5-5-5H7zm5 5a5 5 0 110 10 5 5 0 010-10zm6.5-.9a1.4 1.4 0 110 2.8 1.4 1.4 0 010-2.8zM12 9a3 3 0 100 6 3 3 0 000-6z"/>
+  </svg>
+  Instagram
+</a>
+      </div>
+    </div>
+
+    <!-- CARD 2 -->
+    <div class="card">
+      <div class="card-top">
+        <img class="card-avatar"
+          src="resimler/enes2.jpg"
+          alt="2. Aga"
+          onerror="this.src='https://placehold.co/400x300/111/f5c542?text=Arkadas+%232'"/>
+        <div class="card-number">02</div>
+      </div>
+      <div class="card-body">
+        <div class="card-name">Ali Enes Bolat</div>
+        <div class="card-role">Akıllı Aga</div>
+        <div class="card-divider"></div>
+
+        <div class="card-section-title">🍽 En Sevdiği Yemekler</div>
+        <div class="tag-list">
+          <span class="tag tag-food">Döner</span>
+          <span class="tag tag-food">tavuk</span>
+          <span class="tag tag-food">tarhana 😁</span>
+        </div>
+
+        <div class="card-section-title">🎯 Hobileri</div>
+        <div class="tag-list">
+          <span class="tag tag-hobby">araba sürmek</span>
+          <span class="tag tag-hobby">Film</span>
+          <span class="tag tag-hobby">okey oynamak</span>
+        </div>
+
+        <p class="card-bio">bu ali enes bolat kendisi k.maraş ballıca city'de yaşıyor ve osmanoğlu'nun sahibi😎</p>
+        <br>
+        <br>
+        <br>
+     <br>
+        <a href="https://instagram.com/enesbolat_0" target="_blank" class="insta-btn">
+  <svg viewBox="0 0 24 24">
+    <path d="M7 2C4.2 2 2 4.2 2 7v10c0 2.8 2.2 5 5 5h10c2.8 0 5-2.2 5-5V7c0-2.8-2.2-5-5-5H7zm5 5a5 5 0 110 10 5 5 0 010-10zm6.5-.9a1.4 1.4 0 110 2.8 1.4 1.4 0 010-2.8zM12 9a3 3 0 100 6 3 3 0 000-6z"/>
+  </svg>
+  Instagram
+</a>
+      </div>
+    </div>
+
+    <!-- CARD 3 -->
+    <div class="card">
+      <div class="card-top">
+        <img class="card-avatar"
+          src="resimler/ahmet.jpg"
+          alt="3. Aga"
+          onerror="this.src='https://placehold.co/400x300/111/f5c542?text=Arkadas+%233'"/>
+        <div class="card-number">03</div>
+      </div>
+      <div class="card-body">
+        <div class="card-name">Ahmet Selçuk Bayır</div>
+        <div class="card-role">Elektrikçi Aga</div>
+        <div class="card-divider"></div>
+
+        <div class="card-section-title">🍽 En Sevdiği Yemekler</div>
+        <div class="tag-list">
+          <span class="tag tag-food">döner</span>
+          <span class="tag tag-food">HAMBURGER</span>
+          <span class="tag tag-food">triliçe(doğru hatırlıyorsam tabi)</span>
+        </div>
+
+        <div class="card-section-title">🎯 Hobileri</div>
+        <div class="tag-list">
+          <span class="tag tag-hobby">oyun oynamak</span>
+          <span class="tag tag-hobby">agalarla eğlenmek</span>
+          <span class="tag tag-hobby">Kod yazmak</span>
+        </div>
+
+        <p class="card-bio">Bu Ahmet Selçuk Bayır arkadaşlarının deyimiyle tam bir ibne aynı zamanda çağdaşoğlu elektriğin sahibi bu kadar yani. </p>
+        <a href="https://instagram.com/bayr._.ahmet" target="_blank" class="insta-btn">
+  <svg viewBox="0 0 24 24">
+    <path d="M7 2C4.2 2 2 4.2 2 7v10c0 2.8 2.2 5 5 5h10c2.8 0 5-2.2 5-5V7c0-2.8-2.2-5-5-5H7zm5 5a5 5 0 110 10 5 5 0 010-10zm6.5-.9a1.4 1.4 0 110 2.8 1.4 1.4 0 010-2.8zM12 9a3 3 0 100 6 3 3 0 000-6z"/>
+  </svg>
+  Instagram
+</a>
+      </div>
+    </div>
+
+    <!-- CARD 4 -->
+    <div class="card">
+      <div class="card-top">
+        <img class="card-avatar"
+          src="resimler/asaf.png"
+          alt="4. Aga"
+          onerror="this.src='https://placehold.co/400x300/111/f5c542?text=Arkadas+%234'"/>
+        <div class="card-number">04</div>
+      </div>
+      <div class="card-body">
+        <div class="card-name">Ömer Asaf Bozdoğan</div>
+        <div class="card-role">zengin aga</div>
+        <div class="card-divider"></div>
+
+        <div class="card-section-title">🍽 En Sevdiği Yemekler</div>
+        <div class="tag-list">
+          <span class="tag tag-food">çikolatalı lokma</span>
+          <span class="tag tag-food">Kuru Fasulye</span>
+          <span class="tag tag-food">İçli köfte</span>
+        </div>
+
+        <div class="card-section-title">🎯 Hobileri</div>
+        <div class="tag-list">
+          <span class="tag tag-hobby">Müzik</span>
+          <span class="tag tag-hobby">kod yazmak</span>
+          <span class="tag tag-hobby">futbol</span>
+        </div>
+
+        <p class="card-bio">Bu Ömer Asaf Bozdoğan buda biraz ibne de neyse buda şirket sahibi halı yıkama şirketi (şirketin adını unuttum kusura bakm ) ve ayrıca binevlerde oturuyor (inşallah ablan telefonu vermiştir bu arada) </p>
+        <a href="https://instagram.com/asaf_bzdgn" target="_blank" class="insta-btn">
+  <svg viewBox="0 0 24 24">
+    <path d="M7 2C4.2 2 2 4.2 2 7v10c0 2.8 2.2 5 5 5h10c2.8 0 5-2.2 5-5V7c0-2.8-2.2-5-5-5H7zm5 5a5 5 0 110 10 5 5 0 010-10zm6.5-.9a1.4 1.4 0 110 2.8 1.4 1.4 0 010-2.8zM12 9a3 3 0 100 6 3 3 0 000-6z"/>
+  </svg>
+  Instagram
+</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <p>✦ <span>Agalar Team</span> · Tüm Haklar Saklıdır © 2025 ✦</p>
+  <p style="margin-top:.5rem;font-size:.75rem;"> 🖤</p>
+</footer>
+
+<script>
+  /* ── PARTICLES ── */
+  const container = document.getElementById('particles');
+  const count = 28;
+  for (let i = 0; i < count; i++) {
+    const p = document.createElement('div');
+    p.classList.add('particle');
+    const size = Math.random() * 4 + 2;
+    p.style.cssText = `
+      width:${size}px; height:${size}px;
+      left:${Math.random()*100}%;
+      animation-duration:${6 + Math.random()*10}s;
+      animation-delay:${-Math.random()*12}s;
+    `;
+    container.appendChild(p);
+  }
+
+  /* ── CARD SCROLL REVEAL ── */
+  const cards = document.querySelectorAll('.card');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((entry, idx) => {
+      if (entry.isIntersecting) {
+        const card = entry.target;
+        const delay = Array.from(cards).indexOf(card) * 120;
+        setTimeout(() => card.classList.add('visible'), delay);
+        io.unobserve(card);
+      }
+    });
+  }, { threshold: 0.12 });
+  cards.forEach(c => io.observe(c));
+
+  /* ── CURSOR GLOW ── */
+  const glow = document.createElement('div');
+  glow.style.cssText = `
+    position:fixed; pointer-events:none; z-index:9998;
+    width:320px; height:320px; border-radius:50%;
+    background:radial-gradient(circle, rgba(245,197,66,.06) 0%, transparent 70%);
+    transform:translate(-50%,-50%);
+    transition: transform .08s linear;
+  `;
+  document.body.appendChild(glow);
+  document.addEventListener('mousemove', e => {
+    glow.style.left = e.clientX + 'px';
+    glow.style.top  = e.clientY + 'px';
+  });
+</script>
+</body>
+</html>
